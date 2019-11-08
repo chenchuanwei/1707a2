@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	namespace:工作空间的名称   名称随意
+ -->
+<mapper namespace="com.bawei.mapper.JobMapper">
+	 
+	<select id="getJobList" parameterType="com.bawei.bean.Job" resultType="com.bawei.bean.Job">
+		select j.jid,j.jname,j.jdate,j.price,
+	GROUP_CONCAT(l.lid) lid,GROUP_CONCAT(l.lname) lname
+	from job j,job_light jl,light l
+	where j.jid=jl.jid and l.lid=jl.lid
+	<if test="jname!=null and jname!=''">
+		and j.jname like '%${jname}%'
+	</if>
+	<if test="bdate!=null and bdate!=''">
+		and j.jdate&gt;=#{bdate}
+	</if>
+	<if test="edate!=null and edate!=''">
+		and j.jdate&lt;=#{edate}
+	</if>
+	GROUP BY j.jid
+	<if test="orderl!=null and orderl!='' and ordergz!=null and ordergz!=''">
+		order by ${orderl} ${ordergz}
+	</if>
+	</select>
+
+</mapper>
