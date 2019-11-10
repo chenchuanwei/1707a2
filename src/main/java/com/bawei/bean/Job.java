@@ -151,5 +151,4 @@ public class Job {
 				+ orderl + ", ordergz=" + ordergz + "]";
 	}
 	
-	
 }
